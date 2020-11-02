@@ -1,12 +1,15 @@
 import entities.Address;
 import entities.Employee;
+import entities.Project;
 import entities.Town;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeWork {
     private EntityManager em;
@@ -114,5 +117,27 @@ public class HomeWork {
                 .getResultList();
         em.getTransaction().commit();
       addressList.forEach(a -> System.out.printf("%s, %s - %d employees\n",a.getText(),a.getTown().getName(),a.getEmployees().size()));
+        em.close();
+    }
+
+    public void getEmployeeWithProject(int input) {
+        em.getTransaction().begin();
+        List<Employee> list = em.createQuery("SELECT e FROM Employee e WHERE e.id = ?1",Employee.class)
+                .setParameter(1,input)
+                .getResultList();
+        em.getTransaction().commit();
+
+        Comparator<Project> compareByProjectName = Comparator.comparing(Project::getName);
+
+        list.forEach(e -> {
+            System.out.printf("%s %s - %s\n",e.getFirstName(),e.getLastName(),e.getJobTitle());
+            e.getProjects()
+                    .stream()
+                    .sorted(compareByProjectName)
+                    .forEach(p -> System.out.println(p.getName()));
+        });
+        em.close();
+
+
     }
 }

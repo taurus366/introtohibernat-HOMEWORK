@@ -46,6 +46,8 @@ public class JpaMain {
                 hm.addressWithEmployeeCount();
                 break;
             case "8":
+                System.out.println("Please write employee's ID");
+                hm.getEmployeeWithProject(Integer.parseInt(sc.nextLine()));
                 break;
             case "9":
                 break;
