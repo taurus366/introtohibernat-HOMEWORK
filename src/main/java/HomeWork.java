@@ -1,14 +1,13 @@
-import entities.Address;
-import entities.Employee;
-import entities.Project;
-import entities.Town;
+import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeWork {
     private EntityManager em;
@@ -159,11 +158,8 @@ public class HomeWork {
 
     public void increaseSalaries() {
         em.getTransaction().begin();
-        List<Employee> employeeList = em.createQuery("SELECT e FROM Employee e WHERE e.department.name IN(?1,?2,?3,?4)",Employee.class)
-                .setParameter(1, "Engineering")
-                .setParameter(2, "Tool Design")
-                .setParameter(3,"Marketing")
-                .setParameter(4, "Information Services")
+        List<Employee> employeeList = em.createQuery("SELECT e FROM Employee e WHERE e.department.name IN(?1)",Employee.class)
+                .setParameter(1, Arrays.asList("Engineering","Tool Design","Marketing","Information Services"))
                 .getResultList();
         BigDecimal bigDecimal = new BigDecimal("1.12");
 
@@ -172,6 +168,18 @@ public class HomeWork {
         employeeList.forEach(em::merge);
 
         employeeList.forEach(e -> System.out.printf("%s %s ($%.2f)\n",e.getFirstName(),e.getLastName(),e.getSalary()));
+
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void findEmployeesByFirstName(String employeeFirstName) {
+        em.getTransaction().begin();
+        List<Employee> employeeList = em.createQuery("SELECT e FROM Employee e WHERE e.firstName LIKE ?1",Employee.class)
+                .setParameter(1, employeeFirstName+"%")
+                .getResultList();
+
+        employeeList.forEach(e -> System.out.printf("%s %s - %s - ($%.2f)\n",e.getFirstName(),e.getLastName(),e.getJobTitle(),e.getSalary()));
 
         em.getTransaction().commit();
         em.close();

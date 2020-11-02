@@ -56,6 +56,8 @@ public class JpaMain {
                 hm.increaseSalaries();
                 break;
             case "11":
+                System.out.println("Please write employee's first name");
+                hm.findEmployeesByFirstName(sc.nextLine());
                 break;
             case "12":
                 break;
