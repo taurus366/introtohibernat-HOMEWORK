@@ -171,6 +171,8 @@ public class HomeWork {
         employeeList.forEach(e ->  e.setSalary(bigDecimal.multiply(e.getSalary())));
         employeeList.forEach(em::merge);
 
+        employeeList.forEach(e -> System.out.printf("%s %s ($%.2f)\n",e.getFirstName(),e.getLastName(),e.getSalary()));
+
         em.getTransaction().commit();
         em.close();
     }
