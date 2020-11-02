@@ -50,6 +50,7 @@ public class JpaMain {
                 hm.getEmployeeWithProject(Integer.parseInt(sc.nextLine()));
                 break;
             case "9":
+                hm.findLatest10Projects();
                 break;
             case "10":
                 break;
