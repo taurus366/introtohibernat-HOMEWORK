@@ -9,7 +9,6 @@ import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomeWork {
     private EntityManager em;
@@ -156,5 +155,23 @@ public class HomeWork {
         em.close();
 
 
+    }
+
+    public void increaseSalaries() {
+        em.getTransaction().begin();
+        List<Employee> employeeList = em.createQuery("SELECT e FROM Employee e WHERE e.department.name IN(?1,?2,?3,?4)",Employee.class)
+                .setParameter(1, "Engineering")
+                .setParameter(2, "Tool Design")
+                .setParameter(3,"Marketing")
+                .setParameter(4, "Information Services")
+                .getResultList();
+        BigDecimal bigDecimal = new BigDecimal("1.12");
+
+        employeeList.forEach(em::detach);
+        employeeList.forEach(e ->  e.setSalary(bigDecimal.multiply(e.getSalary())));
+        employeeList.forEach(em::merge);
+
+        em.getTransaction().commit();
+        em.close();
     }
 }

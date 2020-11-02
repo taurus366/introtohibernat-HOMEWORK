@@ -53,6 +53,7 @@ public class JpaMain {
                 hm.findLatest10Projects();
                 break;
             case "10":
+                hm.increaseSalaries();
                 break;
             case "11":
                 break;
