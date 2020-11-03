@@ -20,9 +20,8 @@ public class JpaMain {
                         "[%d] Find Latest 10 Projects\n" +
                         "[%d] Increase Salaries\n" +
                         "[%d] Find Employees by First Name\n" +
-                        "[%d] Employees Maximum Salaries\n" +
-                        "[%d] Remove Towns\n",
-                2,3,4,5,6,7,8,9,10,11,12,13);
+                        "[%d] Employees Maximum Salaries\n",
+                2,3,4,5,6,7,8,9,10,11,12);
 
         switch (sc.nextLine()){
             case "2":
@@ -60,9 +59,9 @@ public class JpaMain {
                 hm.findEmployeesByFirstName(sc.nextLine());
                 break;
             case "12":
+                hm.employeesMaximumSalaries();
                 break;
-            case "13":
-                break;
+
         }
 
 
